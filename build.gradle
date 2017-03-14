@@ -1,0 +1,54 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.1.0'
+	}
+}
+
+allprojects {
+   repositories {
+      flatDir {
+        dirs 'libs'
+      }
+   }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+android {
+	compileSdkVersion 24
+	buildToolsVersion '24.0.2'
+
+	defaultConfig {
+		targetSdkVersion 24
+	}
+
+	lintOptions {
+		abortOnError false
+	}
+	signingConfigs { release {
+		storeFile file('D:/Unity/SolarSystem/user.keystore')
+		storePassword '$hidden'
+		keyAlias '$hidden'
+		keyPassword '$hidden'
+	} }
+
+	buildTypes {
+		debug {
+			jniDebuggable true
+		}
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+			signingConfig signingConfigs.release
+		}
+	}
+
+}
